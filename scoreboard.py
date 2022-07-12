@@ -5,7 +5,7 @@ from pygame.sprite import Group
 import csv
 
 from ship import Ship
-# from records import Records
+
 
 class Scoreboard():
     """Класс для вывода игровой информации."""
@@ -66,24 +66,43 @@ class Scoreboard():
         """Проверяет, появился ли новый рекорд."""
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
-            try:
-                with open('records.csv', 'a') as file:
-                    pass
-            except FileNotFoundError:
-                with open('records.csv', 'w') as f:
-                    lst = [str(date.today()), str(self.stats.high_score)]
-                    writer = csv.writer(f)
-                    writer.writerow(lst)
-            # with open('records.csv', 'r'):
-            #     with open('records.csv', 'w') as file:
-            #     lst = [str(date.today()), str(self.stats.high_score)]
-            #     writer = csv.writer(file)
-            #     writer.writerow(lst)
-            else:
-                with open('records.csv', 'a') as file:
-                    lst = [str(date.today()), str(self.stats.high_score)]
-                    writer = csv.writer(file)
-                    writer.writerow(lst)
+            # try:
+            #     with open('records.csv', 'a') as file:
+            #         pass
+            # except FileNotFoundError:
+            #     with open('records.csv', 'w') as f:
+            #         lst = [str(date.today()), str(self.stats.high_score)]
+            #         writer = csv.writer(f)
+            #         writer.writerow(lst)
+            #
+            # else:
+            #     flag = True
+            #     with open('records.csv', 'r', newline='') as file:
+            #         reader = csv.reader(file)
+            #         for i in reader:
+            #             if flag:
+            #                 if i:
+            #                     if int(i[1]) > int(self.stats.high_score):
+            #                         flag = False
+            #                         break
+            #             else:
+            #                 break
+            #         if flag:
+            #             with open('records.csv', 'a') as f:
+            #                 lst = [str(date.today()), str(self.stats.high_score)]
+            #                 writer = csv.writer(f)
+            #                 writer.writerow(lst)
+
+
+
+
+                # with open('records.csv', 'a') as file:
+                #     lst = [str(date.today()), str(self.stats.high_score)]
+                #     reader = csv.reader(file)
+                #     # for i in reader:
+                #     #     print(i)
+                #     writer = csv.writer(file)
+                #     writer.writerow(lst)
 
 
         self.prep_high_score()

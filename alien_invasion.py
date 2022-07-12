@@ -1,7 +1,9 @@
 import sys
 from time import sleep
+from datetime import date
 
 import pygame
+import csv
 
 
 from settings.settings import Settings
@@ -55,6 +57,7 @@ class AlienInvasion:
         """Запускает новую игру при нажатии кнопки Play."""
 
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+
         if button_clicked and not self.stats.game_active:
             # Сброс игровых настроек.
             self.settings.initialize_dynamic_settings()
@@ -216,6 +219,33 @@ class AlienInvasion:
     def _ship_hit(self):
         """Обрабатывает столкновение корабля с пришельцем."""
         if self.stats.ships_left > 0:
+            try:
+                with open('records.csv', 'a') as file:
+                    pass
+            except FileNotFoundError:
+                with open('records.csv', 'w') as f:
+                    lst = [str(date.today()), str(self.stats.high_score)]
+                    writer = csv.writer(f)
+                    writer.writerow(lst)
+
+            else:
+                flag = True
+                with open('records.csv', 'r', newline='') as file:
+                    reader = csv.reader(file)
+                    for i in reader:
+                        if flag:
+                            if i:
+                                if int(i[1]) >= int(self.stats.high_score):
+                                    flag = False
+                                    break
+                        else:
+                            break
+                    if flag:
+                        with open('records.csv', 'a') as f:
+                            lst = [str(date.today()), str(self.stats.high_score)]
+                            writer = csv.writer(f)
+                            writer.writerow(lst)
+
             # Уменьшение ships_left и обновление панели счета
             self.stats.ships_left -= 1
             self.sb.prep_ships()
